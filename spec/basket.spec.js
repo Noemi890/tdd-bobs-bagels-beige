@@ -82,6 +82,7 @@ describe("Basket", () => {
         basket.addBagel("BGLO", 3)
         basket.countBagelsInBasket()
         const result = basket.getTotal();
+        console.log("My Basket", basket.getTotal())
         expect(result).toEqual(expected);
       });
 });

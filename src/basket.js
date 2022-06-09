@@ -66,14 +66,23 @@ class Basket {
     }
 
     static getSubtotal(counts,SKU){
+        let total = 0
         const count = counts[SKU]
         const dealQuantity = deals[SKU][0]
         const dealPrice = deals[SKU][1]
         const bagelPrice = Bagel.getPriceOfBagel(SKU)
         const dealSum = Math.floor(count / dealQuantity) * (dealPrice)
         const nonDealSum = (count % dealQuantity) * (bagelPrice)
-        return Number((dealSum + nonDealSum).toFixed(2))
-
+        total += (dealSum + nonDealSum).toFixed(2)
+        if (dealQuantity === 1){
+            const BOGOFSKU = `${deals[SKU][2]}`
+            const numOfDiscounts = counts[BOGOFSKU] % deals[BOGOFSKU][0]
+            const saving = Bagel.getPriceOfBagel(BOGOFSKU) - deals[SKU][3]
+            const discount = numOfDiscounts * saving
+            console.log(`discount for ${SKU} = ${discount}`)
+            total -= discount
+        }
+        return Number(total)
     }
 
     getTotal(){
@@ -87,14 +96,19 @@ class Basket {
             if (deals.hasOwnProperty(SKU)){
                 const dealSum = Math.floor(count / dealQuantity) * (dealPrice)
                 const nonDealSum = (count % dealQuantity) * (bagelPrice)
-                total += dealSum + nonDealSum
+                const subtotal = dealSum + nonDealSum
+                console.log(`subtotal for ${SKU} = ${subtotal}`)
+                total += subtotal
             }
             if (dealQuantity === 1){                                                 // adhoc application of coffee deal saving
                 const BOGOFSKU = `${deals[SKU][2]}`
                 const numOfDiscounts = counts[BOGOFSKU] % deals[BOGOFSKU][0]
                 const saving = Bagel.getPriceOfBagel(BOGOFSKU) - deals[SKU][3]
-                total -= numOfDiscounts * saving
+                const discount = numOfDiscounts * saving
+                console.log(`discount for ${SKU} = ${discount}`)
+                total -= discount
             }
+            console.log(`total = ${total}`)
         }
         return Number(total.toFixed(2))
     }

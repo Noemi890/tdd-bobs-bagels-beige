@@ -41,15 +41,17 @@ describe("Receipts", () => {
         expect(result).toEqual(expected);
     });
 
-    it("returns correct total", () => {
+    fit("returns correct total", () => {
         basket.addBagel('BGLO',4)
         basket.addBagel('BGLP',15)
         basket.addBagel('BGLE',7)
         basket.addBagel('COF',3)
         const testReceipt = new Receipt(basket.countBagelsInBasket())
         const expected = basket.getTotal()
-        console.log(testReceipt.getReceipt())
+        const receipt = testReceipt.getReceipt()
+        // console.log(receipt)
         const result = testReceipt.total
+        // console.log(testReceipt.total)
         expect(result).toEqual(expected);
     });
 })
